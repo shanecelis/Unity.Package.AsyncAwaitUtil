@@ -1,23 +1,49 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+#if UNITY_EDITOR
+using Unity.EditorCoroutines.Editor;
+#endif
 
 namespace UnityAsyncAwaitUtil
 {
-    public class AsyncCoroutineRunner : MonoBehaviour
+    public class AsyncCoroutineRunner : MonoBehaviour, AsyncCoroutineRunner.ICoroutineRunner
     {
-        static AsyncCoroutineRunner _instance;
+        public interface ICoroutineRunner
+        {
+            object StartCoroutine(IEnumerator routine);
+        }
 
-        public static AsyncCoroutineRunner Instance
+#if UNITY_EDITOR
+        class EditorAsyncCoroutineRunner : ICoroutineRunner
+        {
+            object ICoroutineRunner.StartCoroutine(IEnumerator routine)
+            {
+                return EditorCoroutineUtility.StartCoroutine(routine, this);
+            }
+        }
+#endif
+
+        static ICoroutineRunner _instance;
+
+        public static ICoroutineRunner Instance
         {
             get
             {
-                if (_instance == null)
+                if (Application.isPlaying)
                 {
-                    _instance = new GameObject("AsyncCoroutineRunner")
-                        .AddComponent<AsyncCoroutineRunner>();
+                    if (_instance == null || _instance is not AsyncCoroutineRunner)
+                    {
+                        _instance = new GameObject("AsyncCoroutineRunner").AddComponent<AsyncCoroutineRunner>();
+                    }
+                }
+                else
+                {
+#if UNITY_EDITOR
+                    if (_instance == null || _instance is not EditorAsyncCoroutineRunner)
+                    {
+                        _instance = new EditorAsyncCoroutineRunner();
+                    }
+#endif
                 }
 
                 return _instance;
@@ -30,6 +56,11 @@ namespace UnityAsyncAwaitUtil
             gameObject.hideFlags = HideFlags.HideAndDontSave;
 
             DontDestroyOnLoad(gameObject);
+        }
+
+        object ICoroutineRunner.StartCoroutine(IEnumerator routine)
+        {
+            return StartCoroutine(routine);
         }
     }
 }
