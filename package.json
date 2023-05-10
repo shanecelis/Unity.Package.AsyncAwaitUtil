@@ -1,10 +1,12 @@
 {
   "name": "com.trackman.asyncawaitutil",
-  "description": "A bunch of code to make using async-await easier in Unity3D",
+  "description": "Adds support for async/await in Unity.",
   "displayName": "Async Await Util",
   "version": "1.0.6",
-  "unity": "2020.1",
+  "unity": "2021.3",
   "dependencies": {
     "com.unity.editorcoroutines": "1.0.0"
-  }
+  },
+  "author": "TrackMan",
+  "type": "trackman.package"
 }
