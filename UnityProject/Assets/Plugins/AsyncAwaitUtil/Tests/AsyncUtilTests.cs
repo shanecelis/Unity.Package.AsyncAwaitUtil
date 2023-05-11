@@ -15,8 +15,7 @@ namespace UnityAsyncAwaitUtil
         const string AssetBundleSampleUrl = "http://www.stevevermeulen.com/wp-content/uploads/2017/09/teapot.unity3d";
         const string AssetBundleSampleAssetName = "Teapot";
 
-        [SerializeField]
-        TestButtonHandler.Settings _buttonSettings = null;
+        [SerializeField] TestButtonHandler.Settings _buttonSettings = null;
 
         TestButtonHandler _buttonHandler;
 
@@ -85,11 +84,6 @@ namespace UnityAsyncAwaitUtil
                 RunOpenNotepadTestAsync().WrapErrors();
             }
 
-            if (_buttonHandler.Display("Test www download"))
-            {
-                RunWwwAsync().WrapErrors();
-            }
-
             if (_buttonHandler.Display("Test Call Async from coroutine"))
             {
                 StartCoroutine(RunAsyncFromCoroutineTest());
@@ -136,19 +130,12 @@ namespace UnityAsyncAwaitUtil
         void PrintCurrentThreadContext(string prefix = null)
         {
             Debug.Log(string.Format("{0}Current Thread: {1}, Scheduler: {2}",
-                prefix == null ? "" : prefix + ": ", Thread.CurrentThread.ManagedThreadId, SynchronizationContext.Current == null ? "null" : SynchronizationContext.Current.GetType().Name));
+                                    prefix == null ? "" : prefix + ": ", Thread.CurrentThread.ManagedThreadId, SynchronizationContext.Current == null ? "null" : SynchronizationContext.Current.GetType().Name));
         }
 
         async Task RunAsyncFromCoroutineTest2()
         {
             await new WaitForSeconds(1.0f);
-        }
-
-        async Task RunWwwAsync()
-        {
-            Debug.Log("Downloading asset bundle using WWW");
-            var bytes = (await new WWW(AssetBundleSampleUrl)).bytes;
-            Debug.Log("Downloaded " + (bytes.Length / 1024) + " kb");
         }
 
         async Task RunOpenNotepadTestAsync()
@@ -198,7 +185,7 @@ namespace UnityAsyncAwaitUtil
             // We could use WWW here too which might be easier
             Debug.Log("Downloading asset bundle data...");
             var assetBundle = await AssetBundle.LoadFromMemoryAsync(
-                await DownloadRawDataAsync(abUrl));
+                                                                    await DownloadRawDataAsync(abUrl));
 
             var prefab = (GameObject)(await assetBundle.LoadAssetAsync<GameObject>(assetName));
 
@@ -210,7 +197,7 @@ namespace UnityAsyncAwaitUtil
         async Task<byte[]> DownloadRawDataAsync(string url)
         {
             var request = UnityWebRequest.Get(url);
-            await request.Send();
+            await request.SendWebRequest();
             return request.downloadHandler.data;
         }
 
@@ -270,6 +257,7 @@ namespace UnityAsyncAwaitUtil
             {
                 yield return null;
             }
+
             yield return "bsdfgas";
         }
 
