@@ -1,1 +1,21 @@
+# Ignore everything in the Unity project folder except for Assets, packages, and the project version.
+/UnityProject/*
+!/UnityProject/Assets/
+!/UnityProject/UnityPackages/
+!/UnityProject/ProjectSettings/
+/UnityProject/ProjectSettings/*
+!/UnityProject/ProjectSettings/ProjectVersion.txt
+
+# Ignore other files and folders in the root directory
+/Build/
+/Temp/
+/obj/
+/Library/
+*.csproj
+*.unityproj
+*.sln
+*.userprefs
+*.dll
+
+#Ignore VS files.
 .vs
