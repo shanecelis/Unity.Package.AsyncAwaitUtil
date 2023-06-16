@@ -76,3 +76,4 @@ crashlytics-build.properties
 
 # Include the "UnityPackages" directory
 !/UnityPackages/
+.DS_Store

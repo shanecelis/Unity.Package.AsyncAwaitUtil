@@ -1,12 +1,23 @@
 {
-  "name": "com.trackman.asyncawaitutil",
+  "name": "com.seawisphunter.asyncawaitutil",
   "description": "Adds support for async/await in Unity.",
   "displayName": "Async Await Util",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "unity": "2021.3",
   "dependencies": {
     "com.unity.editorcoroutines": "1.0.0"
   },
   "author": "TrackMan",
-  "type": "trackman.package"
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "unity",
+    "async"
+  ],
+  "samples": [
+    {
+      "displayName": "Sample 1",
+      "path": "Samples~/Sample 1"
+    }
+  ]
 }
